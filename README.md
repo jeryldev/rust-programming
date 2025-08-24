@@ -2,257 +2,328 @@
 
 ## 📚 Overview
 
-This is the main directory for all Rust learning projects and courses. Since this folder already exists, we'll use it as a container for different Rust courses and projects. Each course or learning path gets its own subfolder, and within each folder, individual Cargo projects are created for lessons, chapters, or exercises.
+Central directory for all Rust learning projects. Organized by course/resource, with flexibility to use either single projects with multiple binaries (for exercises) or separate projects (for larger applications).
+
+## 🚀 Prerequisites & Setup
+
+### Install Rust
+
+Install Rust via [rustup](https://www.rust-lang.org/tools/install) (the official Rust installer):
+
+**Linux/macOS/Unix:**
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+**Windows:**
+Download and run [rustup-init.exe](https://www.rust-lang.org/tools/install)
+
+After installation, restart your terminal and verify:
+```bash
+rustc --version
+cargo --version
+```
+
+### Clone & Run This Repository
+
+```bash
+# Clone the repository
+git clone <your-repo-url>
+cd rust_programming
+
+# Navigate to an existing project
+cd educative_rust_programming_language_course
+
+# Run a specific program
+cargo run --bin hello_world
+
+# Or list all available programs
+ls src/bin/
+```
+
+### Optional: Install Development Tools
+
+```bash
+# Code formatter
+rustup component add rustfmt
+
+# Linter
+rustup component add clippy
+
+# Language server (required for IDE support)
+rustup component add rust-analyzer
+
+# Auto-rerun on file changes
+cargo install cargo-watch
+```
+
+### Neovim Setup (LazyVim)
+
+For Neovim users with LazyVim, enable the Rust language extra:
+
+```vim
+:LazyExtras
+```
+Then select and enable `lang.rust` extra. This will install:
+- **rustaceanvim** - Enhanced Rust plugin (successor to rust-tools.nvim)
+- **crates.nvim** - Cargo.toml LSP support
+- **Treesitter** - Rust and RON syntax highlighting
+- **Codelldb** - Debugger support via Mason
+
+The Rust extra requires `rust-analyzer` to be installed (see above).
 
 ## 🗂️ Directory Structure
 
 ```
-~/code/rust_programming/           # This current directory
-├── README.md                      # This file - main documentation
-├── .git/                          # Git repository (already initialized)
-├── educative_rust_course/         # Educative.io course projects
-│   ├── 01_hello_world/           # Each is a separate Cargo project
-│   ├── 02_variables/
-│   ├── 03_data_types/
-│   └── ...
-├── rust_book/                     # "The Rust Programming Language" book
-│   ├── ch01_getting_started/
-│   ├── ch02_guessing_game/
-│   └── ...
-├── rustlings_exercises/           # Rustlings practice exercises
-│   ├── variables/
-│   ├── functions/
-│   └── ...
-├── personal_projects/             # Your own Rust projects
-│   ├── calculator/
-│   ├── todo_cli/
-│   └── ...
-└── advent_of_code_2024/          # Advent of Code challenges
-    ├── day01/
-    ├── day02/
-    └── ...
+~/code/rust_programming/                              # This current directory
+├── .gitignore                                       # Git ignore file
+├── README.md                                         # This file
+├── educative_rust_programming_language_course/      # Educative.io course (Cargo project)
+│   ├── Cargo.toml                                  # Project configuration
+│   ├── Cargo.lock                                  # Dependency lock file
+│   └── src/
+│       ├── main.rs                                 # Optional default program
+│       └── bin/                                    # ⚠️ ALL exercise files go here
+│           └── hello_world.rs                     # Example exercise
+├── rust_book/                                       # "The Rust Programming Language" book (future)
+├── rustlings/                                       # Rustlings exercises (future)
+├── personal_projects/                              # Your own Rust applications (future)
+└── experiments/                                    # Quick tests and explorations (future)
+
 ```
 
-**Note**: This directory (`~/code/rust_programming/`) is NOT a Cargo project itself - it's a container for organizing multiple Rust learning paths and projects.
+## 🚀 Two Workflows
 
-## 🚀 Getting Started
+### Workflow A: Multiple Binaries in One Project (For Courses/Exercises)
 
-### Step 1: Create a Course/Project Folder
+Perfect when working through tutorials with many small programs:
 
 ```bash
+# For new projects:
 cd ~/code/rust_programming
-mkdir educative_rust_course
-cd educative_rust_course
-```
-
-### Step 2: Create Individual Cargo Projects
-
-For each lesson, chapter, or exercise, create a new Cargo project:
-
-```bash
-# Example: Creating projects for Educative.io course
-cargo new 01_hello_world
-cargo new 02_variables
-cargo new 03_data_types
-# ... and so on
-```
-
-### Step 3: Work on a Specific Project
-
-```bash
-cd 01_hello_world
-nvim src/main.rs  # Edit your code
-cargo run         # Run the project
-```
-
-## 📖 Example: Setting Up Educative.io Rust Course
-
-### Create the Course Directory
-```bash
-cd ~/code/rust_programming
-mkdir educative_rust_course
-cd educative_rust_course
-```
-
-### Create Projects for Each Topic
-```bash
-# Module 1: Getting Started
-cargo new 01_hello_world
-cargo new 02_variables_mutability
-cargo new 03_basic_types
-
-# Module 2: Control Flow
-cargo new 04_if_expressions
-cargo new 05_loops
-cargo new 06_match_expressions
-
-# Module 3: Ownership
-cargo new 07_ownership_basics
-cargo new 08_borrowing_references
-cargo new 09_slices
-
-# Continue creating projects as you progress...
-```
-
-## 🛠️ Useful Commands
-
-### Navigation Shortcuts
-Add these to your `.zshrc` for quick navigation:
-
-```bash
-# Rust learning directory aliases
-alias rust_learn='cd ~/code/rust_programming'
-alias rust_edu='cd ~/code/rust_programming/educative_rust_course'
-alias rust_book='cd ~/code/rust_programming/rust_book'
-alias rust_proj='cd ~/code/rust_programming/personal_projects'
-```
-
-### Cargo Commands Quick Reference
-
-```bash
-# Create new project
 cargo new project_name
+cd project_name
+mkdir src/bin
 
-# Build and run
-cargo run
+# For existing projects (like educative_rust_programming_language_course):
+cd ~/code/rust_programming/educative_rust_programming_language_course
 
-# Just build
-cargo build
+# IMPORTANT: Create programs in src/bin/ NOT in src/
+# Files in src/bin/ are automatically recognized as binary targets
+nvim src/bin/01_hello_world.rs  # ✅ Correct location
+nvim src/bin/02_variables.rs    # ✅ Correct location
+# NOT: nvim src/01_hello_world.rs ❌ Wrong - causes rust-analyzer warnings
 
-# Build optimized version
-cargo build --release
+# Write your code (example for 01_hello_world.rs)
+cat > src/bin/01_hello_world.rs << 'EOF'
+fn main() {
+    println!("Hello, World!");
+    println!("Welcome to Rust Programming!");
+}
+EOF
 
-# Check for errors (faster than build)
-cargo check
-
-# Run tests
-cargo test
-
-# Format code
-cargo fmt
-
-# Lint code
-cargo clippy
-
-# Update dependencies
-cargo update
-
-# Add a dependency
-cargo add crate_name
-
-# Watch and auto-run on changes
-cargo watch -x run
+# Run programs
+cargo run --bin 01_hello_world
+cargo run --bin 02_variables
+rust_run 1  # Using helper function (see below)
 ```
 
-## 📚 Suggested Course Folders
+**Note**: Always create exercise files in `src/bin/` directory. Files placed directly in `src/` will show rust-analyzer warnings about not being included in the module tree.
 
-### 1. Educative.io Courses
-```bash
-mkdir educative_rust_course
-mkdir educative_rust_advanced
-mkdir educative_game_dev_rust
-```
+### Workflow B: Separate Projects (For Real Applications)
 
-### 2. Official Rust Resources
-```bash
-mkdir rust_book           # The Rust Programming Language book
-mkdir rust_by_example     # Rust by Example
-mkdir rustlings_exercises # Rustlings exercises
-```
-
-### 3. Online Courses
-```bash
-mkdir udemy_rust_course
-mkdir coursera_rust
-mkdir youtube_tutorials
-```
-
-### 4. Practice & Challenges
-```bash
-mkdir leetcode_rust
-mkdir advent_of_code_2024
-mkdir exercism_rust
-mkdir codewars_rust
-```
-
-### 5. Personal Projects
-```bash
-mkdir personal_projects
-mkdir experiments
-mkdir mini_projects
-```
-
-## 📝 Project Naming Conventions
-
-Use consistent naming for easy navigation:
+For substantial projects with their own dependencies:
 
 ```bash
-# For course chapters/lessons
-01_hello_world
-02_variables
-03_data_types
-
-# For exercises
-ex01_temperature_converter
-ex02_fibonacci
-ex03_guessing_game
-
-# For projects
-project_calculator
-project_todo_cli
-project_web_server
+cd ~/code/rust_programming/personal_projects
+cargo new todo_cli
+cargo new web_server
 ```
 
-## 🎯 Learning Path Recommendations
+## 🛠️ Shell Helper Functions
 
-### Beginner Path
-1. Start with `educative_rust_course/`
-2. Follow along with `rust_book/`
-3. Practice with `rustlings_exercises/`
+Add to your `.zshrc`:
 
-### Intermediate Path
-1. Build projects in `personal_projects/`
-2. Solve challenges in `advent_of_code_2024/`
-3. Try `exercism_rust/` for mentored practice
+```bash
+#=============================================================================
+#                     Rust Learning Helper Functions
+#=============================================================================
 
-### Advanced Path
-1. Contribute to open source
-2. Build complex applications
-3. Explore systems programming
+# Navigation
+alias rust_learn='cd ~/code/rust_programming'
+alias rust_edu='cd ~/code/rust_programming/educative_rust_programming_language_course'
+alias rust_proj='cd ~/code/rust_programming/personal_projects'
+
+# List all binaries in current project
+rust_list() {
+    if [[ -d "src/bin" ]]; then
+        echo "Available programs:"
+        ls -1 src/bin/*.rs 2>/dev/null | xargs -n1 basename | sed 's/\.rs$//' | nl
+    else
+        echo "No src/bin directory found."
+    fi
+}
+
+# Run by name or number
+rust_run() {
+    if [ -z "$1" ]; then
+        rust_list
+        echo "\nUsage: rust_run <name or number>"
+        return 1
+    fi
+
+    if [[ "$1" =~ ^[0-9]+$ ]]; then
+        local file=$(ls -1 src/bin/*.rs 2>/dev/null | sed -n "${1}p" | xargs -n1 basename | sed 's/\.rs$//')
+        [ -z "$file" ] && echo "No file #$1" && return 1
+        cargo run --bin "$file"
+    else
+        cargo run --bin "$1"
+    fi
+}
+
+# Create new binary with template (creates in src/bin/)
+rust_new() {
+    [ -z "$1" ] && echo "Usage: rust_new <filename>" && return 1
+
+    local filename="${1%.rs}.rs"
+    mkdir -p src/bin  # Ensures src/bin/ exists
+
+    # Creates file in src/bin/ NOT src/
+    cat > "src/bin/$filename" << EOF
+fn main() {
+    println!("=== ${1%.rs} ===\n");
+
+    // Your code here
+}
+EOF
+
+    echo "Created: src/bin/$filename"  # Note: in src/bin/
+    echo "Run with: cargo run --bin ${filename%.rs}"
+}
+
+# Watch & auto-run
+rust_watch() {
+    [ -z "$1" ] && echo "Usage: rust_watch <program>" && return 1
+    cargo watch -x "run --bin $1"
+}
+```
+
+## ⚡ Quick Commands
+
+### Shell Commands
+
+```bash
+# Navigation
+rust_learn              # Go to main Rust directory
+rust_edu                # Go to Educative course
+rust_proj               # Go to personal projects
+
+# Working with programs
+rust_list               # Show all programs (numbered)
+rust_run 1              # Run program #1
+rust_run hello_world    # Run by name
+rust_new 05_loops       # Create new program
+rust_watch 05_loops     # Auto-rerun on changes
+
+# Standard Cargo
+cargo build             # Build project
+cargo check             # Quick error check
+cargo test              # Run tests
+cargo fmt               # Format code
+cargo clippy            # Lint code
+cargo doc --open        # Generate docs
+```
+
+### Neovim Rust Commands
+
+```vim
+:RustLsp run            # Run current binary
+:RustLsp debuggables    # Debug current binary
+:RustLsp testables      # Run tests
+:RustLsp expandMacro    # Expand macro under cursor
+:RustLsp openCargo      # Open Cargo.toml
+:RustLsp openDocs       # Open docs for symbol
+:RustLsp parentModule   # Go to parent module
+```
+
+**Note**: The keymaps like `<Space>rr` might need to be configured manually. Use `:RustLsp` commands directly for now.
+
+## 📖 Example: Working with Existing Projects
+
+```bash
+# 1. Navigate to existing course project
+cd ~/code/rust_programming/educative_rust_programming_language_course
+
+# 2. Create new lesson files
+rust_new 01_hello_world
+rust_new 02_variables
+rust_new 03_data_types
+rust_new 04_control_flow
+rust_new 05_ownership
+
+# 3. Write code (example: edit 01_hello_world.rs)
+cat > src/bin/01_hello_world.rs << 'EOF'
+fn main() {
+    println!("=== 01_hello_world ===\n");
+
+    // Basic output
+    println!("Hello, World!");
+
+    // Using variables
+    let name = "Rustacean";
+    println!("Hello, {}!", name);
+
+    // Multiple values
+    let language = "Rust";
+    let year = 2025;
+    println!("Learning {} in {}", language, year);
+}
+EOF
+
+# 4. Run and test
+rust_list               # See all programs
+rust_run 1              # Run first program (01_hello_world)
+rust_run 01_hello_world # Or run by name
+rust_watch 01_hello_world # Auto-rerun on changes
+```
+
+## 🎯 Learning Path
+
+### Beginner
+
+1. Start with `educative_rust_programming_language_course/` - fundamentals
+2. Try `rustlings/` - guided practice (when created)
+3. Read along with `rust_book/` - official book
+
+### Intermediate
+
+1. Build in `personal_projects/` - real applications
+2. Solve `advent_of_code/` - algorithmic challenges
+3. Contribute to open source
+
+### Advanced
+
+1. Systems programming projects
+2. Async/concurrent applications
+3. Embedded Rust
 
 ## 🔗 Resources
 
-### Official Resources
 - [The Rust Book](https://doc.rust-lang.org/book/)
 - [Rust by Example](https://doc.rust-lang.org/rust-by-example/)
 - [Rustlings](https://github.com/rust-lang/rustlings)
-
-### Online Courses
-- [Educative.io Rust Courses](https://www.educative.io/courses/rust-programming-language)
-- [Udemy Rust Courses](https://www.udemy.com/topic/rust-programming-language/)
-
-### Practice Platforms
-- [Exercism](https://exercism.org/tracks/rust)
-- [LeetCode](https://leetcode.com/)
-- [Advent of Code](https://adventofcode.com/)
+- [Educative.io Rust](https://www.educative.io/courses/rust-programming-language)
+- [Exercism Rust Track](https://exercism.org/tracks/rust)
 
 ## 💡 Tips
 
-1. **Keep projects small and focused** - One concept per project
-2. **Name projects descriptively** - Use numbers for ordering
-3. **Document your learning** - Add README files to projects
-4. **Commit regularly** - Track your progress with git
-5. **Experiment freely** - Create an `experiments/` folder for trying things out
-
-## 📄 Notes
-
-This structure allows you to:
-- Keep different courses/resources organized
-- Easily switch between learning materials
-- Track progress in each course separately
-- Maintain a clean workspace for all Rust learning
-
-Remember: Each folder in `~/code/rust_programming/` is a container for related Cargo projects, not a Cargo project itself!
+1. **Use numbered prefixes** (`01_`, `02_`) for ordered lessons
+2. **One concept per file** when learning
+3. **Commit progress** regularly to track learning
+4. **Read compiler errors** - Rust's are excellent
+5. **Use `cargo clippy`** for style suggestions
 
 ---
-*Happy Learning! 🦀*
+
+_Happy Learning! 🦀_
+

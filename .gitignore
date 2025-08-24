@@ -1,0 +1,57 @@
+# Rust build artifacts
+target/
+**/*.rs.bk
+*.pdb
+
+# Cargo
+# Keep Cargo.lock for binary projects, ignore for libraries
+# Since this is a learning repo with multiple binaries, we'll keep them
+# Uncomment if you want to ignore them:
+# Cargo.lock
+
+# IDE and editor files
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Debug artifacts
+*.dSYM/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Testing and profiling
+tarpaulin-report.html
+cobertura.xml
+*.profraw
+*.profdata
+
+# Documentation
+/target/doc/
+
+# Temporary files
+*.tmp
+*.bak
+.temp/
+
+# Environment files
+.env
+.env.local
+
+# OS specific
+Thumbs.db
+.DS_Store
+.Spotlight-V100
+.Trashes
+
+# Project-specific ignores for learning exercises
+*/solution/
+*/answers/
+*.solution.rs
